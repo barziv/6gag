@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
 import Posts from './postsComponnent/postsComponnent';
+import UploadButtonCommponnent from './UploadComponnent/uploadButtonCommponnent';
 
 function App() {
   return (
-    <Posts />
+    <div>
+      <Posts />
+      <UploadButtonCommponnent />
+    </div>
   );
 }
 
