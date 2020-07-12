@@ -14,9 +14,14 @@ class PostsManager {
     }
 
     uploadNewPost(postInformation) {
-        let id = uuid.v4();
-        postInformation["id"] = id;
-        this.posts.set(id, postInformation);
+        if ("ownerID" in postInformation && postInformation.ownerID !== "") {
+            let id = uuid.v4();
+            postInformation["id"] = id;
+            this.posts.set(id, postInformation);
+            return true;
+        }
+
+        return false;
     }
 
 }
