@@ -38,7 +38,7 @@ function UploadNewPost(props) {
             onChange={(event) => data.set("description", event.target.value)}
         />
         <input type="file" onChange={(event) => data.set("picture", event.target.files[0]) }></input>
-        <IconButton aria-label="search" onClick={() => {
+        <IconButton type="submit" aria-label="search" onClick={() => {
             SendNewPostToServer(data);
             props.handleClose();
         }}>

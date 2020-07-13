@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -15,8 +15,27 @@ const useStyles = makeStyles({
   },
 });
 
+function changeLikes(id, isLike, updateLikes, likes) {
+  let data = {
+    id,
+    isLike
+  };
+  
+  fetch('http://192.168.1.36:4000/posts', {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+  updateLikes((isLike)? ++likes : --likes);
+}
+
 export default function Post(procs) {
   const classes = useStyles();
+  const [likes, setLikes] = useState(procs.data.like ?? 0);
 
   return (
     <Card className={classes.root}>
@@ -35,13 +54,16 @@ export default function Post(procs) {
           <Typography variant="body2" color="textSecondary" component="p">
           {procs.data.description}
           </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {likes}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => changeLikes(procs.data.id, true, setLikes, likes)}>
           Like
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => changeLikes(procs.data.id, false, setLikes, likes)}>
           Unlike
         </Button>
       </CardActions>
