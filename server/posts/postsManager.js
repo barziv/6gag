@@ -4,10 +4,10 @@ const fs = require('fs');
 class PostsManager {
     constructor() {
         this.posts = new Map();
-        let dirPath = __dirname+"/../pictures";
+        this.dirPath = __dirname+"/../pictures/";
 
-        if (!fs.existsSync(dirPath)){
-            fs.mkdirSync(dirPath);
+        if (!fs.existsSync(this.dirPath)){
+            fs.mkdirSync(this.dirPath);
         }
     }
 
@@ -32,7 +32,15 @@ class PostsManager {
     }
 
     deletePost(id) {
-        return this.posts.delete(id);
+        if (this.posts.delete(id))
+        {
+            fs.unlink(this.dirPath+id, () => {
+                console.log("remove file");
+            })
+            return true;
+        }
+
+        return false;
     }
     
     changeLikes(id, isLike) {
@@ -59,7 +67,7 @@ class PostsManager {
     }
 
     _saveToFile(filename, file) {
-        let filePath = __dirname+"/../pictures/"+filename;
+        let filePath = this.dirPath+filename;
         fs.appendFile(filePath, file.buffer, () => {
             console.log("write to file");
         });
