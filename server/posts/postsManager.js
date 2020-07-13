@@ -1,10 +1,12 @@
+const PostsValidation = require('../validation/postsValidation');
 const uuid = require('uuid');
 const fs = require('fs');
 
 class PostsManager {
-    constructor() {
+    constructor(postsValidation) {
         this.posts = new Map();
         this.dirPath = __dirname+"/../pictures/";
+        this.postsValidation = postsValidation;
 
         if (!fs.existsSync(this.dirPath)){
             fs.mkdirSync(this.dirPath);
@@ -20,7 +22,7 @@ class PostsManager {
     }
 
     uploadNewPost(postInformation, picture) {
-        if ("ownerID" in postInformation && postInformation.ownerID !== "") {
+        if (this.postsValidation.newPostValidation(postInformation, picture)) {
             let id = uuid.v4();
             postInformation["id"] = id;
             this.posts.set(id, postInformation);
@@ -44,25 +46,21 @@ class PostsManager {
     }
     
     changeLikes(id, isLike) {
-        let post = this.posts.get(id);
-        if (post !== undefined) {
-            if (!("like" in post)) {
-                post["like"] = 0;
-            }
-
-            this._incLikes(post, isLike);
+        if (this.postsValidation.isExitsAndHasLikes(this.posts, id)) {
+            let post = this.posts.get(id);
+            this._changeLikesAmount(post, isLike);
             return true;
         }
         
         return false;
     }
 
-    _incLikes(post, isLike) {
+    _changeLikesAmount(post, isLike) {
         if (isLike === true) {
-            post["like"]++;
+            post["likes"]++;
         }
-        else if (post["like"] > 0) {
-            post["like"]--;
+        else if (post["likes"] > 0) {
+            post["likes"]--;
         }
     }
 
@@ -75,4 +73,4 @@ class PostsManager {
 
 }
 
-module.exports = new PostsManager();
+module.exports = new PostsManager(new PostsValidation());

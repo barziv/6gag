@@ -35,7 +35,7 @@ function changeLikes(id, isLike, updateLikes, likes) {
 
 export default function Post(procs) {
   const classes = useStyles();
-  const [likes, setLikes] = useState(procs.data.like ?? 0);
+  const [likes, setLikes] = useState(procs.data.likes ?? 0);
 
   return (
     <Card className={classes.root}>
