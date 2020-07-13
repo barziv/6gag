@@ -10,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 700,
+    maxWidth: '40%',
+    marginLeft: '30%',
   },
 });
 
@@ -23,7 +24,7 @@ export default function Post(procs) {
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
-          height="140"
+          maxWidth="40%"
           image={`http://localhost:4000/pictures/${procs.data.id}`}
           title="Contemplative Reptile"
         />
