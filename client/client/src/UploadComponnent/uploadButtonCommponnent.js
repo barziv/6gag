@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import UploadNewPost from './UploadComponnent';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
-  }
+  },
 }));
 
 export default function BottomAppBar() {
@@ -30,14 +29,11 @@ export default function BottomAppBar() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
+      <AppBar color="primary" className={classes.appBar}>
         <Toolbar>
         <div className={classes.grow} />
           <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleClickOpen}>
             <AddIcon />
-          </IconButton>
-          <IconButton edge="end" color="inherit">
-            <MoreIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

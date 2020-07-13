@@ -7,11 +7,6 @@ import PublishIcon from '@material-ui/icons/Publish';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function SendNewPostToServer(data) {
-    // let formData = new FormData();
-    // for (let pair of data.entries()) {
-    //     formData.append(pair[0], pair[1]);
-    // }
-
     fetch('http://192.168.1.36:4000/posts', {
         method: 'POST',
         mode: 'cors',
@@ -21,11 +16,6 @@ function SendNewPostToServer(data) {
 
 function UploadNewPost(props) {
     let data = new FormData();
-    //     ownerID: "",
-    //     picture: "",
-    //     header: "",
-    //     description: "",
-    // };
 
   return (
     <div>
@@ -47,15 +37,7 @@ function UploadNewPost(props) {
             inputProps={{ 'aria-label': 'description' }}
             onChange={(event) => data.set("description", event.target.value)}
         />
-        <input type="file" onChange={(event) => {
-            let file = event.target.files[0];
-            data.set("picture", file);
-            // let reader = new FileReader();
-            // reader.readAsText(file, "UTF-8");
-            // reader.onload = function (evt) {
-            //     data.picture = evt.target.result;
-            // }
-        }}></input>
+        <input type="file" onChange={(event) => data.set("picture", event.target.files[0]) }></input>
         <IconButton aria-label="search" onClick={() => {
             SendNewPostToServer(data);
             props.handleClose();
