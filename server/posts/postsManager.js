@@ -3,10 +3,11 @@ const uuid = require('uuid');
 const fs = require('fs');
 
 class PostsManager {
-    constructor(postsValidation) {
+    constructor(postsValidation, dbManager) {
         this.posts = new Map();
         this.dirPath = __dirname+"/../pictures/";
         this.postsValidation = postsValidation;
+        this.dbManager = dbManager;
 
         if (!fs.existsSync(this.dirPath)){
             fs.mkdirSync(this.dirPath);
@@ -25,6 +26,7 @@ class PostsManager {
         if (this.postsValidation.newPostValidation(postInformation, picture)) {
             let id = uuid.v4();
             postInformation["id"] = id;
+            this.dbManager.insert(postInformation);
             this.posts.set(id, postInformation);
             this._saveToFile(id, picture);
             return true;
@@ -73,4 +75,4 @@ class PostsManager {
 
 }
 
-module.exports = new PostsManager(new PostsValidation());
+module.exports = PostsManager;
