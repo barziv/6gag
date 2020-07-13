@@ -17,13 +17,20 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use("/pictures", express.static(__dirname+"/pictures"));
 
 app.get('/posts', (req, res) => {
-    console.log("posts req");
     res.send(PostManager.getAllPosts())
 })
 
 app.post('/posts', upload.single('picture'), (req, res) => {
-
     if (PostManager.uploadNewPost(req.body, req.file)) {
+        res.send('new post set');
+    }
+    else {
+        res.send('bad request');   
+    }
+})
+
+app.put('/posts', (req, res) => {
+    if (PostManager.changeLikes(req.body.id, req.body.isLike)) {
         res.send('new post set');
     }
     else {
