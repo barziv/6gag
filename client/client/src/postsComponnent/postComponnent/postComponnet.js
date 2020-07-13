@@ -24,7 +24,7 @@ export default function Post(procs) {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image="https://cdn.pixabay.com/photo/2017/01/17/14/44/pixabay-1987090_1280.png"
+          image={`http://localhost:4000/pictures/${procs.data.id}`}
           title="Contemplative Reptile"
         />
         <CardContent>
