@@ -31,6 +31,10 @@ class PostsManager {
         return false;
     }
 
+    deletePost(id) {
+        return this.posts.delete(id);
+    }
+    
     changeLikes(id, isLike) {
         let post = this.posts.get(id);
         if (post !== undefined) {

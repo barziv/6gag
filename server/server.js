@@ -38,4 +38,8 @@ app.put('/posts', (req, res) => {
     }
 })
 
+app.delete('/posts/:id', (req, res) => {
+    res.send(PostManager.deletePost(req.params.id));
+})
+
 app.listen(port, () => console.log(`instabar app listening at http://localhost:${port}`))
