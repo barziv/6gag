@@ -19,10 +19,6 @@ class PostsManager {
         return this.posts.get(id);
     }
 
-    getPicture(id) {
-        return this.pictures.get(id);
-    }
-
     uploadNewPost(postInformation, picture) {
         if ("ownerID" in postInformation && postInformation.ownerID !== "") {
             let id = uuid.v4();
@@ -33,6 +29,29 @@ class PostsManager {
         }
 
         return false;
+    }
+
+    changeLikes(id, isLike) {
+        let post = this.posts.get(id);
+        if (post !== undefined) {
+            if (!("like" in post)) {
+                post["like"] = 0;
+            }
+
+            this._incLikes(post, isLike);
+            return true;
+        }
+        
+        return false;
+    }
+
+    _incLikes(post, isLike) {
+        if (isLike === true) {
+            post["like"]++;
+        }
+        else if (post["like"] > 0) {
+            post["like"]--;
+        }
     }
 
     _saveToFile(filename, file) {
