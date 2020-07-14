@@ -16,21 +16,24 @@ const useStyles = makeStyles({
   },
 });
 
+function sendDataToServer(data) {
+  fetch(config.SERVER_ADDRESS+'/posts', {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
 function changeLikes(id, isLike, updateLikes, likes) {
   let data = {
     id,
     isLike
   };
   
-  fetch(config.SERVER_ADDRESS+'/posts', {
-        method: 'PUT',
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
+  sendDataToServer(data);
   updateLikes((isLike)? ++likes : --likes);
 }
 

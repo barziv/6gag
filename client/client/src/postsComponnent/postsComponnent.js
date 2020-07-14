@@ -22,9 +22,8 @@ class Posts extends Component {
   
     componentDidMount() {
         fetch(config.SERVER_ADDRESS+'/posts')
-            .then(response => {
-                return response.json();
-            }).then(data => {
+            .then(response => {return response.json();})
+            .then(data => {
                     this.setState({
                         classes: this.state.classes,
                         response: data                        

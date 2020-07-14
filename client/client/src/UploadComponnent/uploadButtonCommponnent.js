@@ -22,17 +22,13 @@ export default function BottomAppBar() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setIsOpen(true);
-  };
-
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar color="primary" className={classes.appBar}>
         <Toolbar>
         <div className={classes.grow} />
-          <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleClickOpen}>
+          <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={() => setIsOpen(true)}>
             <AddIcon />
           </IconButton>
         </Toolbar>

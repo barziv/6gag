@@ -17,6 +17,9 @@ function SendNewPostToServer(data) {
 
 function UploadNewPost(props) {
     let data = new FormData();
+    const addData = (key, value) => {
+        data.set(key, value);
+    }
 
   return (
     <div>
@@ -26,19 +29,19 @@ function UploadNewPost(props) {
         <InputBase
             placeholder="Name"
             inputProps={{ 'aria-label': 'name' }}
-            onChange={(event) => data.set("ownerID", event.target.value)}
+            onChange={(event) => addData("ownerID", event.target.value)}
         />
         <InputBase
             placeholder="Title"
             inputProps={{ 'aria-label': 'title' }}
-            onChange={(event) => data.set("header", event.target.value)}
+            onChange={(event) => addData("header", event.target.value)}
         />
         <InputBase
             placeholder="Description"
             inputProps={{ 'aria-label': 'description' }}
-            onChange={(event) => data.set("description", event.target.value)}
+            onChange={(event) => addData("description", event.target.value)}
         />
-        <input type="file" onChange={(event) => data.set("picture", event.target.files[0]) }></input>
+        <input type="file" onChange={(event) => addData("picture", event.target.files[0]) }></input>
         <IconButton type="submit" aria-label="search" onClick={() => {
             SendNewPostToServer(data);
             props.handleClose();
