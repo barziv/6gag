@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Grid from '@material-ui/core/Grid';
 import Post from './postComponnent/postComponnet';
+import Comments from './commentsComponnent/commentsComponnet';
 import config from '../config';
 
 class Posts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            classes: makeStyles((theme) => ({
-                root: {
-                  width: '100%',
-                  maxwidth: 360,
-                  backgroundColor: theme.palette.background.paper,
-                },
-              })),
             response: []
         };
     }
@@ -25,7 +19,6 @@ class Posts extends Component {
             .then(response => {return response.json();})
             .then(data => {
                     this.setState({
-                        classes: this.state.classes,
                         response: data                        
                     });
                 });
@@ -33,16 +26,21 @@ class Posts extends Component {
 
     render() {
         return (
-            <div className={this.state.classes.root}>
-            <List component="nav">
+            <GridList cellHeight={"15%"} cols={1}>
                 {this.state.response.map((data) => {
-                return (<ListItem button key={data.id}>
-                    <Post data={data}/>
-                </ListItem>
+                    return (
+                        <GridListTile key={data["_id"]}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Post data={data}/>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Comments comments={data.comments} id={data["_id"]} />
+                                </Grid>
+                            </Grid>
+                        </GridListTile>
                 )})}
-            
-            </List>
-            </div>
+            </GridList>
         );
     }
 }

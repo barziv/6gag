@@ -11,8 +11,7 @@ import config from '../../config';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '40%',
-    marginLeft: '30%',
+    maxHeight: '100%',
   },
 });
 
@@ -37,9 +36,9 @@ function changeLikes(id, isLike, updateLikes, likes) {
   updateLikes((isLike)? ++likes : --likes);
 }
 
-export default function Post(procs) {
+export default function Post(props) {
   const classes = useStyles();
-  const [likes, setLikes] = useState(procs.data.likes ?? 0);
+  const [likes, setLikes] = useState(props.data.likes ?? 0);
 
   return (
     <Card className={classes.root}>
@@ -48,15 +47,15 @@ export default function Post(procs) {
           component="img"
           alt="Contemplative Reptile"
           maxwidth="40%"
-          image={`${config.SERVER_ADDRESS}/pictures/${procs.data["_id"]}`}
+          image={`${config.SERVER_ADDRESS}/pictures/${props.data["_id"]}`}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {procs.data.header}
+            {props.data.header}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          {procs.data.description}
+          {props.data.description}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {likes}
@@ -64,10 +63,10 @@ export default function Post(procs) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={() => changeLikes(procs.data["_id"], true, setLikes, likes)}>
+        <Button size="small" color="primary" onClick={() => changeLikes(props.data["_id"], true, setLikes, likes)}>
           Like
         </Button>
-        <Button size="small" color="primary" onClick={() => changeLikes(procs.data["_id"], false, setLikes, likes)}>
+        <Button size="small" color="primary" onClick={() => changeLikes(props.data["_id"], false, setLikes, likes)}>
           Unlike
         </Button>
       </CardActions>
