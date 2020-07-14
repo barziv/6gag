@@ -41,8 +41,8 @@ app.put('/posts', async (req, res) => {
     }
 })
 
-app.delete('/posts/:id', (req, res) => {
-    res.send(postsManager.deletePost(req.params.id));
+app.delete('/posts/:id', async (req, res) => {
+    res.send(await postsManager.deletePost(req.params.id));
 })
 
 app.listen(port, () => console.log(`instabar app listening at http://localhost:${port}`))
