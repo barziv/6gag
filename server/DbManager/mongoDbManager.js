@@ -45,13 +45,12 @@ class MongoDbManager {
         });
     }
 
-    update(id, data) {
+    update(id, query) {
         this.MongoClient.connect(this.url, function(err, db) {
             if (err) throw err;
             var dbo = db.db(config.DB_NAME);
             var myquery = { _id: new mongo.ObjectId(id) };
-            var newvalues = { $set: data };
-            dbo.collection(config.COLLECTION_NAME).updateOne(myquery, newvalues, function(err, res) {
+            dbo.collection(config.COLLECTION_NAME).updateOne(myquery, query, function(err, res) {
               if (err) throw err;
               console.log("1 document updated");
               db.close();
