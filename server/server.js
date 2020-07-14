@@ -1,3 +1,4 @@
+const config = require('./config');
 const PostsManager = require('./posts/postsManager');
 const PostsValidation = require('./validation/postsValidation');
 const MongoManager = require('./DbManager/mongoDbManager');
@@ -8,7 +9,7 @@ const upload = multer();
 var cors = require('cors');
 const app = express()
 const port = 4000
-const postsManager = new PostsManager(new PostsValidation(), new MongoManager());
+const postsManager = new PostsManager(new PostsValidation(), new MongoManager(config.MONGODB_URL), "/../pictures/");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({

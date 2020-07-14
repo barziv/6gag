@@ -9,10 +9,6 @@ class PostsValidation {
     isExits(post) {
         return post !== null;
     }
-
-    _canChangeLikes(posts) {
-        return posts.length === 1;
-    }
 }
 
 module.exports = PostsValidation;

@@ -1,16 +1,17 @@
 const mongo = require('mongodb');
+const config = require('../config');
 
 class MongoDbManager {
-    constructor() {
+    constructor(url) {
         this.MongoClient = mongo.MongoClient;
-        this.url = "mongodb://127.0.0.1:27017/?compressors=zlib&gssapiServiceName=mongodb";
+        this.url = url;
     }
 
     getByID(id, filter=NaN) {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
-                let dbo = db.db("InstaBar");
-                dbo.collection("posts").findOne({_id: new mongo.ObjectId(id)}, function(err, res) {
+                let dbo = db.db(config.DB_NAME);
+                dbo.collection(config.COLLECTION_NAME).findOne({_id: new mongo.ObjectId(id)}, function(err, res) {
                     resolve(res);
                     db.close();
                 });
@@ -21,8 +22,8 @@ class MongoDbManager {
     getAll() {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
-                var dbo = db.db("InstaBar");
-                dbo.collection("posts").find({}).toArray(function(err, res) {
+                var dbo = db.db(config.DB_NAME);
+                dbo.collection(config.COLLECTION_NAME).find({}).toArray(function(err, res) {
                     resolve(res);
                     db.close();
                 });
@@ -33,8 +34,8 @@ class MongoDbManager {
     insert(data) {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
-                var dbo = db.db("InstaBar");
-                dbo.collection("posts").insertOne(data, function(err, res) {
+                var dbo = db.db(config.DB_NAME);
+                dbo.collection(config.COLLECTION_NAME).insertOne(data, function(err, res) {
                     if (err) throw err;
                     console.log("1 document inserted");
                     resolve(res.ops[0]["_id"]);
@@ -47,10 +48,10 @@ class MongoDbManager {
     update(id, data) {
         this.MongoClient.connect(this.url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("InstaBar");
+            var dbo = db.db(config.DB_NAME);
             var myquery = { _id: new mongo.ObjectId(id) };
             var newvalues = { $set: data };
-            dbo.collection("posts").updateOne(myquery, newvalues, function(err, res) {
+            dbo.collection(config.COLLECTION_NAME).updateOne(myquery, newvalues, function(err, res) {
               if (err) throw err;
               console.log("1 document updated");
               db.close();
@@ -61,8 +62,8 @@ class MongoDbManager {
     delete(id) {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
-                var dbo = db.db("InstaBar");
-                dbo.collection("posts").deleteOne({_id: new mongo.ObjectId(id)}, function(err, res) {
+                var dbo = db.db(config.DB_NAME);
+                dbo.collection(config.COLLECTION_NAME).deleteOne({_id: new mongo.ObjectId(id)}, function(err, res) {
                     console.log("1 document deleted");
                     (res.result.n === 1) ? resolve(true) : resolve(false);
                     db.close();

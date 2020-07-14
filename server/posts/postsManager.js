@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 class PostsManager {
-    constructor(postsValidation, dbManager) {
-        this.dirPath = __dirname+"/../pictures/";
+    constructor(postsValidation, dbManager, picturesLocation) {
+        this.dirPath = __dirname+picturesLocation;
         this.postsValidation = postsValidation;
         this.dbManager = dbManager;
 
