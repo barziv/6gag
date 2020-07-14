@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Post from './postComponnent/postComponnet';
+import config from '../config';
 
 class Posts extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class Posts extends Component {
     }
   
     componentDidMount() {
-        fetch('http://localhost:4000/posts')
+        fetch(config.SERVER_ADDRESS+'/posts')
             .then(response => {
                 return response.json();
             }).then(data => {

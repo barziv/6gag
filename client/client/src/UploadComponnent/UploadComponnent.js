@@ -5,9 +5,10 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import PublishIcon from '@material-ui/icons/Publish';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import config from '../config';
 
 function SendNewPostToServer(data) {
-    fetch('http://192.168.1.36:4000/posts', {
+    fetch(config.SERVER_ADDRESS+'/posts', {
         method: 'POST',
         mode: 'cors',
         body: data,

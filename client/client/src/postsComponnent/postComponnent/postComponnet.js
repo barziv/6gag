@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import config from '../../config';
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +22,7 @@ function changeLikes(id, isLike, updateLikes, likes) {
     isLike
   };
   
-  fetch('http://192.168.1.36:4000/posts', {
+  fetch(config.SERVER_ADDRESS+'/posts', {
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -44,7 +45,7 @@ export default function Post(procs) {
           component="img"
           alt="Contemplative Reptile"
           maxwidth="40%"
-          image={`http://localhost:4000/pictures/${procs.data["_id"]}`}
+          image={`${config.SERVER_ADDRESS}/pictures/${procs.data["_id"]}`}
           title="Contemplative Reptile"
         />
         <CardContent>
