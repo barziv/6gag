@@ -6,18 +6,8 @@ class PostsValidation {
             pictureFromClient !== undefined;
     }
 
-    isExits(posts) {
-        return posts.length === 1;
-        // if (this._canChangeLikes(posts)) {
-        //     let post = posts[0];
-        //     if (!("likes" in post)) {
-        //         updataFunction(post.id, {likes: 0});
-        //     }
-
-        //     return true;
-        // }
-
-        // return false;
+    isExits(post) {
+        return post !== null;
     }
 
     _canChangeLikes(posts) {

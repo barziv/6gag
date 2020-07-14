@@ -19,7 +19,7 @@ class PostsManager {
     }
 
     getSpecificPost(id) {
-        return this.posts.get(id);
+        return this.dbManager.getByID(id, {likes: 1});
     }
 
     uploadNewPost(postInformation, picture) {
@@ -37,8 +37,8 @@ class PostsManager {
         return false;
     }
 
-    deletePost(id) {
-        if (this.posts.delete(id))
+    async deletePost(id) {
+        if (await this.dbManager.delete(id))
         {
             fs.unlink(this.dirPath+id, () => {
                 console.log("remove file");
@@ -51,9 +51,8 @@ class PostsManager {
     
     changeLikes(id, isLike) {
         this.dbManager.getByID(id, {likes: 1})
-        .then(posts => {
-            if (this.postsValidation.isExits(posts)) {
-                let post = posts[0];
+        .then(post => {
+            if (this.postsValidation.isExits(post)) {
                 let likes = this._getNewAmountOfLikes(post, isLike);
                 this.dbManager.update(id, {"likes": likes});
                 return true;
