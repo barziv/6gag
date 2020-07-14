@@ -16,8 +16,6 @@ class PostsManager {
 
     async getAllPosts() {
         return this.dbManager.getAll();
-        // return this.dbManager.getAll();
-        // return Array.from(this.posts.values());
     }
 
     getSpecificPost(id) {
@@ -25,9 +23,11 @@ class PostsManager {
     }
 
     uploadNewPost(postInformation, picture) {
+        let moreFields = ["likes"];
         if (this.postsValidation.newPostValidation(postInformation, picture)) {
             let id = uuid.v4();
             postInformation["id"] = id;
+            moreFields.forEach(field => postInformation[field] = "");
             this.dbManager.insert(postInformation);
             this.posts.set(id, postInformation);
             this._saveToFile(id, picture);
@@ -50,22 +50,34 @@ class PostsManager {
     }
     
     changeLikes(id, isLike) {
-        if (this.postsValidation.isExitsAndHasLikes(this.posts, id)) {
-            let post = this.posts.get(id);
-            this._changeLikesAmount(post, isLike);
-            return true;
-        }
+        this.dbManager.getByID(id, {likes: 1})
+        .then(posts => {
+            if (this.postsValidation.isExits(posts)) {
+                let post = posts[0];
+                let likes = this._getNewAmountOfLikes(post, isLike);
+                this.dbManager.update(id, {"likes": likes});
+                return true;
+            }
+
+            return false; 
+        });
         
-        return false;
     }
 
-    _changeLikesAmount(post, isLike) {
-        if (isLike === true) {
-            post["likes"]++;
+    _getNewAmountOfLikes(post, isLike) {
+        let likes = post.likes;
+        if (!("likes" in post)) {
+            likes = 0;
         }
-        else if (post["likes"] > 0) {
-            post["likes"]--;
+
+        if (isLike) {
+            likes++;
         }
+        else if (likes > 0) {
+            likes--;
+        }
+
+        return likes;
     }
 
     _saveToFile(filename, file) {
