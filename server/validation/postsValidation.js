@@ -1,7 +1,7 @@
 class PostsValidation {
     constructor() {}
 
-    newPostValidation(inputFromClient, pictureFromClient) {
+    isPostValid(inputFromClient, pictureFromClient) {
         return ("ownerID" in inputFromClient && inputFromClient.ownerID !== "") &&
             pictureFromClient !== undefined;
     }

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const config = require('../config');
 
 class PostsManager {
     constructor(postsValidation, dbManager, picturesLocation) {
@@ -20,13 +21,12 @@ class PostsManager {
     }
 
     uploadNewPost(postInformation, picture) {
-        let moreFields = ["likes"];
-        if (this.postsValidation.newPostValidation(postInformation, picture)) {
-            moreFields.forEach(field => postInformation[field] = "");
-            this.dbManager.insert(postInformation)
-            .then(id => {
+        if (this.postsValidation.isPostValid(postInformation, picture)) {
+            config.FIELDS_TO_INIT.forEach(field => postInformation[field] = "");
+            this.dbManager.insert(postInformation).then(id => {
                 this._saveToFile(id, picture); 
             });
+            
             return true;
         }
 
@@ -34,11 +34,8 @@ class PostsManager {
     }
 
     async deletePost(id) {
-        if (await this.dbManager.delete(id))
-        {
-            fs.unlink(this.dirPath+id, () => {
-                console.log("remove file");
-            })
+        if (await this.dbManager.delete(id)) {
+            fs.unlink(this.dirPath+id, () => { console.log("remove file"); })
             return true;
         }
 
