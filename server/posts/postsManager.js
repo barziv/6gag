@@ -1,10 +1,7 @@
-const PostsValidation = require('../validation/postsValidation');
-const uuid = require('uuid');
 const fs = require('fs');
 
 class PostsManager {
     constructor(postsValidation, dbManager) {
-        this.posts = new Map();
         this.dirPath = __dirname+"/../pictures/";
         this.postsValidation = postsValidation;
         this.dbManager = dbManager;
@@ -25,12 +22,11 @@ class PostsManager {
     uploadNewPost(postInformation, picture) {
         let moreFields = ["likes"];
         if (this.postsValidation.newPostValidation(postInformation, picture)) {
-            let id = uuid.v4();
-            postInformation["id"] = id;
             moreFields.forEach(field => postInformation[field] = "");
-            this.dbManager.insert(postInformation);
-            this.posts.set(id, postInformation);
-            this._saveToFile(id, picture);
+            this.dbManager.insert(postInformation)
+            .then(id => {
+                this._saveToFile(id, picture); 
+            });
             return true;
         }
 

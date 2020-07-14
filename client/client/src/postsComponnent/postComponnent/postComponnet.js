@@ -44,7 +44,7 @@ export default function Post(procs) {
           component="img"
           alt="Contemplative Reptile"
           maxwidth="40%"
-          image={`http://localhost:4000/pictures/${procs.data.id}`}
+          image={`http://localhost:4000/pictures/${procs.data["_id"]}`}
           title="Contemplative Reptile"
         />
         <CardContent>
@@ -60,10 +60,10 @@ export default function Post(procs) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={() => changeLikes(procs.data.id, true, setLikes, likes)}>
+        <Button size="small" color="primary" onClick={() => changeLikes(procs.data["_id"], true, setLikes, likes)}>
           Like
         </Button>
-        <Button size="small" color="primary" onClick={() => changeLikes(procs.data.id, false, setLikes, likes)}>
+        <Button size="small" color="primary" onClick={() => changeLikes(procs.data["_id"], false, setLikes, likes)}>
           Unlike
         </Button>
       </CardActions>
