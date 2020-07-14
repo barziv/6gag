@@ -7,12 +7,12 @@ class MongoDbManager {
     getByID(id, filter=NaN) {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
-                var dbo = db.db("InstaBar");
-                dbo.collection("posts").find({id: id}, 
-                { projection: filter }).toArray(function(err, res) {
-                    resolve(res);
-                    db.close();
-                });
+                let dbo = db.db("InstaBar");
+                dbo.collection("posts").findOne({id: id}, 
+                    { projection: filter }, function(err, res) {
+                        resolve(res);
+                        db.close();
+                    });
             });
         });
     }
@@ -53,6 +53,19 @@ class MongoDbManager {
               db.close();
             });
           });
+    }
+
+    delete(id) {
+        return new Promise((resolve, reject) => { 
+            this.MongoClient.connect(this.url).then(function(db){
+                var dbo = db.db("InstaBar");
+                dbo.collection("posts").deleteOne({id: id}, function(err, res) {
+                    console.log("1 document deleted");
+                    (res.result.n === 1) ? resolve(true) : resolve(false);
+                    db.close();
+                });
+            });
+        });
     }
 }
 
