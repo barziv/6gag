@@ -14,8 +14,10 @@ class PostsManager {
         }
     }
 
-    getAllPosts() {
-        return Array.from(this.posts.values());
+    async getAllPosts() {
+        return this.dbManager.getAll();
+        // return this.dbManager.getAll();
+        // return Array.from(this.posts.values());
     }
 
     getSpecificPost(id) {

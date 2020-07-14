@@ -20,7 +20,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use("/pictures", express.static(__dirname+"/pictures"));
 
 app.get('/posts', (req, res) => {
-    res.send(postsManager.getAllPosts())
+    postsManager.getAllPosts().then(dbData => res.send(dbData));
 })
 
 app.post('/posts', upload.single('picture'), (req, res) => {
