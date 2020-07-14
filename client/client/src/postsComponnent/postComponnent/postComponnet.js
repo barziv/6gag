@@ -43,7 +43,7 @@ export default function Post(procs) {
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
-          maxWidth="40%"
+          maxwidth="40%"
           image={`http://localhost:4000/pictures/${procs.data.id}`}
           title="Contemplative Reptile"
         />

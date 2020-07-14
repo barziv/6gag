@@ -11,7 +11,7 @@ class Posts extends Component {
             classes: makeStyles((theme) => ({
                 root: {
                   width: '100%',
-                  maxWidth: 360,
+                  maxwidth: 360,
                   backgroundColor: theme.palette.background.paper,
                 },
               })),
@@ -20,9 +20,10 @@ class Posts extends Component {
     }
   
     componentDidMount() {
-        fetch('http://localhost:4000/posts', {mode:'cors'})
-            .then(response => response.json())
-                .then(data => {
+        fetch('http://localhost:4000/posts')
+            .then(response => {
+                return response.json();
+            }).then(data => {
                     this.setState({
                         classes: this.state.classes,
                         response: data                        
