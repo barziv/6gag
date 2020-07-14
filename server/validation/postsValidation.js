@@ -1,3 +1,5 @@
+const config = require('../config');
+
 class PostsValidation {
     constructor() {}
 
@@ -6,8 +8,26 @@ class PostsValidation {
             pictureFromClient !== undefined;
     }
 
-    isExits(post) {
-        return post !== null;
+    isUpdateRequestValid(requestBody) {
+        if (requestBody.hasOwnProperty("id")) {
+            return this._hasKeysForUpdate(requestBody, config.QUERYS);
+        }
+
+        return false;
+    }
+
+    canUpdate(post, fieldToUpdate) {
+        return post !== null && fieldToUpdate !== false;
+    }
+
+    _hasKeysForUpdate(obj, wantedKey) {
+        for (let key of Object.keys(obj)) {
+            if (wantedKey[key] !== undefined) {
+                return wantedKey[key];
+            }
+        }
+
+        return false;
     }
 }
 
