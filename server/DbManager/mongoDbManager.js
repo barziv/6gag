@@ -4,8 +4,17 @@ class MongoDbManager {
         this.url = "mongodb://127.0.0.1:27017/?compressors=zlib&gssapiServiceName=mongodb";
     }
 
-    getByID() {
-
+    getByID(id, filter=NaN) {
+        return new Promise((resolve, reject) => { 
+            this.MongoClient.connect(this.url).then(function(db){
+                var dbo = db.db("InstaBar");
+                dbo.collection("posts").find({id: id}, 
+                { projection: filter }).toArray(function(err, res) {
+                    resolve(res);
+                    db.close();
+                });
+            });
+        });
     }
 
     getAll() {
@@ -18,14 +27,6 @@ class MongoDbManager {
                 });
             });
         });
-        // async function(err, db) {
-        //     if (err) throw err;
-        //     var dbo = db.db("InstaBar");
-        //     await dbo.collection("posts").find({}).toArray(function(err, result) {
-        //       if (err) throw err;
-        //       db.close();
-        //     });
-        //   });
     }
 
     insert(data) {
@@ -43,7 +44,7 @@ class MongoDbManager {
     update(id, data) {
         this.MongoClient.connect(this.url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("instabar");
+            var dbo = db.db("InstaBar");
             var myquery = { id: id };
             var newvalues = { $set: data };
             dbo.collection("posts").updateOne(myquery, newvalues, function(err, res) {
