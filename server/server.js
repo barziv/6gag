@@ -32,8 +32,8 @@ app.post('/posts', upload.single('picture'), (req, res) => {
     }
 })
 
-app.put('/posts', (req, res) => {
-    if (postsManager.changeLikes(req.body.id, req.body.isLike)) {
+app.put('/posts', async (req, res) => {
+    if (await postsManager.changeLikes(req.body.id, req.body.isLike)) {
         res.send('new post set');
     }
     else {
