@@ -10,16 +10,18 @@ class Posts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            response: []
+            response: [],
+            url: props.url,
         };
     }
   
     componentDidMount() {
-        fetch(config.SERVER_ADDRESS+'/posts')
+        fetch(config.SERVER_ADDRESS+this.state.url)
             .then(response => {return response.json();})
             .then(data => {
                     this.setState({
-                        response: data                        
+                        response: data,
+                        url: this.state.url,            
                     });
                 });
     }
