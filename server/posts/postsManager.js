@@ -16,6 +16,10 @@ class PostsManager {
         return this.dbManager.getAll();
     }
 
+    getTopTenPosts() {
+        return this.dbManager.getTop(10, {likes: -1});
+    }
+
     getSpecificPost(id, filter=NaN) {
         return this.dbManager.getByID(id, filter);
     }

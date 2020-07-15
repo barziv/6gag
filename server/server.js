@@ -24,6 +24,16 @@ app.get('/posts', (req, res) => {
     postsManager.getAllPosts().then(dbData => res.send(dbData));
 })
 
+app.get('/posts/top-ten', (req, res) => {
+    postsManager.getTopTenPosts().then(dbData => res.send(dbData));
+})
+
+app.get('/posts/:id', (req, res) => {
+    postsManager.getSpecificPost(req.params.id).then(dbData => {
+        res.send(dbData);
+    });
+})
+
 app.post('/posts', upload.single('picture'), (req, res) => {
     if (postsManager.uploadNewPost(req.body, req.file)) {
         res.send('new post set');
