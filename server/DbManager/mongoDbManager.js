@@ -31,6 +31,19 @@ class MongoDbManager {
         });
     }
 
+    getTop(amount, sortOption=NaN) {
+        return new Promise((resolve, reject) => { 
+            this.MongoClient.connect(this.url).then(function(db){
+                var dbo = db.db(config.DB_NAME);
+                dbo.collection(config.COLLECTION_NAME).find({}).sort(sortOption).limit(amount)
+                .toArray(function(err, res) {
+                    resolve(res);
+                    db.close();
+                });
+            });
+        });
+    }
+
     insert(data) {
         return new Promise((resolve, reject) => { 
             this.MongoClient.connect(this.url).then(function(db){
