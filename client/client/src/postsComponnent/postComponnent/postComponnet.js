@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -43,13 +44,15 @@ export default function Post(props) {
   return (
     <Card className={classes.root}>
       <CardActionArea>
+        <Link to={`posts/${props.data["_id"]}`} style={{ textDecoration: 'none' }}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
           maxwidth="40%"
           image={`${config.SERVER_ADDRESS}/pictures/${props.data["_id"]}`}
           title="Contemplative Reptile"
-        />
+        /> 
+        </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {props.data.header}
