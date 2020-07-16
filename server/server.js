@@ -5,11 +5,21 @@ const MongoManager = require('./DbManager/mongoDbManager');
 const express = require('express')
 const bodyParser = require("body-parser");
 const multer = require('multer');
+const cors = require('cors');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
+const initializePassport = require('./validation/userAuthenticator');
+const UsersManager = require('./validation/usersManager');
+
 const upload = multer();
-var cors = require('cors');
 const app = express()
-const port = 4000
 const postsManager = new PostsManager(new PostsValidation(), new MongoManager(config.MONGODB_URL), "/../pictures/");
+
+initializePassport(
+    passport,
+    UsersManager.getUserById
+)
 
 app.use(cors());
 app.use(bodyParser.urlencoded({
@@ -17,6 +27,48 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json({limit: '50mb'})); 
+app.use(flash())
+app.use(session({
+  secret: config.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+function checkNotAuthenticated(req, res, next) {
+    (req.isAuthenticated()) ? res.send(false) : next();
+}
+
+app.get('/isLogin', (req, res) => {
+    res.send({res: req.isAuthenticated()});
+})
+
+app.post('/login', checkNotAuthenticated, function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+      res.set('Access-Control-Allow-Credentials', true);
+      res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+      if (err) { return next(err); }
+      if (!user) { return res.send({return:'wrong'}); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.send({return:'good'});
+      });
+    })(req, res, next);
+});
+
+app.post('/register', (req, res) => {
+    res.send(UsersManager.registerNewUser(req.body.username, req.body.password));
+})
+
+app.all('*', (req, res, next) => {
+    (req.isAuthenticated()) ? next() : res.send([]);
+})
+
+app.delete('/logout', (req, res) => {
+    req.logOut();
+    res.send(true);
+})
 
 app.use("/pictures", express.static(__dirname+"/pictures"));
 
@@ -56,4 +108,4 @@ app.delete('/posts/:id', async (req, res) => {
     res.send(await postsManager.deletePost(req.params.id));
 })
 
-app.listen(port, () => console.log(`instabar app listening at http://localhost:${port}`))
+app.listen(config.PORT, () => console.log(`instabar app listening at http://localhost:${config.PORT}`))
