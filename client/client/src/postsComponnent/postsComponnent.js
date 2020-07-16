@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Post from './postComponnent/postComponnet';
 import Comments from './commentsComponnent/commentsComponnet';
 import config from '../config';
+import './postsComponnent.css';
 
 class Posts extends Component {
     constructor(props) {
@@ -21,23 +22,23 @@ class Posts extends Component {
             .then(data => {
                     this.setState({
                         response: data,
-                        url: this.state.url,            
+                        url: this.state.url,
                     });
                 });
     }
 
     render() {
         return (
-            <GridList cellHeight={"15%"} cols={1}>
+            <GridList cellHeight={"100%"} cols={1}>
                 {this.state.response.map((data) => {
                     return (
                         <GridListTile key={data["_id"]}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
+                            <Grid container spacing={4} justify="center">
+                                <Grid item sm={4}>
                                     <Post data={data}/>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <Comments comments={data.comments} id={data["_id"]} />
+                                <Grid item sm={4} className={"comments"}>
+                                    <Comments comments={data.comments} />
                                 </Grid>
                             </Grid>
                         </GridListTile>
