@@ -51,7 +51,7 @@ class MongoDbManager {
 
     update(id, query) {
         this._getMongoCollection().then((collection) => {
-            var myquery = { _id: new mongo.ObjectId(id) };
+            let myquery = { _id: new mongo.ObjectId(id) };
             collection.updateOne(myquery, query, function(err, res) {
               if (err) throw err;
               console.log("1 document updated");
@@ -71,8 +71,9 @@ class MongoDbManager {
     }
 
     _getMongoCollection() {
+        const dbOptions = {useUnifiedTopology: true};
         return new Promise((resolve, reject) => { 
-            this.MongoClient.connect(this.url).then(function(db){
+            this.MongoClient.connect(this.url, dbOptions).then(function(db){
                 let dbo = db.db(config.DB_NAME);
                 resolve(dbo.collection(config.COLLECTION_NAME), db);
             });
