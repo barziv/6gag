@@ -28,34 +28,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function sendLoginData(userData) {
-  // console.log(userData);
-  // fetch(config.SERVER_ADDRESS + "/login", {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: 'application/json',
-  //     "Content-Type": "application/json",
-  //     'Access-Control-Allow-Origin': '*',
-  //   },
-  //   credentials: "include",
-  //   body: JSON.stringify(userData)
-  // }).then(response => console.log(response.headers.get('Set-Cookie')))
-  var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-var raw = JSON.stringify({"username":"bar","password":"1234"});
-
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  mode: "no-cors",
-  redirect: 'follow'
-};
-
-fetch("http://localhost:4000/login", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+  console.log(userData);
+  fetch(config.SERVER_ADDRESS + "/login", {
+    method: "POST",
+    headers: {
+      Accept: 'application/json',
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+    body: JSON.stringify(userData)
+  }).then(response => console.log(response.headers.get('Set-Cookie')))
 }
 
 function LoginPage() {
