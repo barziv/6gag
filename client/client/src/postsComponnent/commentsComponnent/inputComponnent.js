@@ -26,7 +26,7 @@ export default function Input(props) {
     const [newMessage, setNewMessage] = useState('');
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className={"commentsInput"}>
             <Grid item xs={9}>
                 <TextField fullWidth id="outlined-basic" label="Message" variant="outlined" 
                     onChange={(event) => setNewMessage(event.target.value)}/>

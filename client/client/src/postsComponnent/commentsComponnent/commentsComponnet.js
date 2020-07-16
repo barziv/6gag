@@ -11,7 +11,6 @@ export default class Comments extends Component {
         super(props);
         this.state = {
             comments: (props.comments ?? []),
-            id: props.id,
         }
     }
     
@@ -19,7 +18,6 @@ export default class Comments extends Component {
         this.state.comments.push(newComment);
         this.setState({
             comments: this.state.comments,
-            id: this.state.id
         });
     }
 
@@ -37,7 +35,7 @@ export default class Comments extends Component {
                             </ListItem>
                         );
                     })}
-                    <Input id={this.state.id} changeComments={this.changeComments.bind(this)}/>
+                    <Input changeComments={this.changeComments.bind(this)}/>
                 </List>
         );
     }
