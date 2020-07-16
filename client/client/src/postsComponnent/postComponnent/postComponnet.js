@@ -34,7 +34,7 @@ function changeLikes(id, isLike, updateLikes, likes) {
   };
   
   sendDataToServer(data);
-  updateLikes((isLike)? ++likes : --likes);
+  updateLikes((isLike)? ++likes : (likes) => { return (likes > 0) ? --likes : 0; });
 }
 
 export default function Post(props) {
